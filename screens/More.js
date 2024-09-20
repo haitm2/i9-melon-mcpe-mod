@@ -12,8 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 var isIpad = Platform.isPad;
 
 const width = Dimensions.get('window').width;
-// const DOMAIN = Platform.OS == 'android' ? 'magicdev.fun' : 'gammapp.com';
-const DOMAIN = 'gammapp.com';
+const DOMAIN = 'megatechlab.com';
 
 export default function More({ navigation }) {
 
@@ -110,8 +109,19 @@ export default function More({ navigation }) {
             </View>
             <Ionicons name="chevron-forward-outline" color='#00796B' size={20} />
           </TouchableOpacity>
-          <Divider />
-          <TouchableOpacity
+          {!isPurchased && <Divider />}
+          {!isPurchased && <TouchableOpacity
+            style={styles.moreItem}
+            onPress={() => navigation.navigate('LuckyNumber')}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons name="gift-outline" color='#00796B' size={20} />
+              <Text style={{ color: '#00796B', marginLeft: 20, fontSize: 18 }}>Luckly number</Text>
+            </View>
+            <Ionicons name="chevron-forward-outline" color='#00796B' size={20} />
+          </TouchableOpacity>}
+          {!isPurchased && <Divider />}
+          {!isPurchased && <TouchableOpacity
             style={styles.moreItem}
             onPress={() => navigation.navigate('Premium')}
           >
@@ -120,7 +130,7 @@ export default function More({ navigation }) {
               <Text style={{ color: '#00796B', marginLeft: 20, fontSize: 18 }}>Subscribe</Text>
             </View>
             <Ionicons name="chevron-forward-outline" color='#00796B' size={20} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
 
         {bannerError || isPurchased ?

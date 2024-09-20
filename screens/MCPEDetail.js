@@ -55,7 +55,7 @@ const MCPEDetail = ({ route, navigation }) => {
 
     const getAddon = async () => {
         try {
-            const url = 'https://addons.magicdev.fun/addons4/' + route.params.addonId;
+            const url = 'https://mcpe.megatechlab.com/addons4/' + route.params.addonId;
             const data = await axios.get(url);
             // const decryptedData = AES.decrypt(get(data, 'data.data'));
             // const addon = JSON.parse(decryptedData);
@@ -75,7 +75,7 @@ const MCPEDetail = ({ route, navigation }) => {
 
     const getReviews = async () => {
         try {
-            const url = 'https://addons.magicdev.fun/addons4/' + route.params.addonId + '/reviews';
+            const url = 'https://mcpe.megatechlab.com/addons4/' + route.params.addonId + '/reviews';
             const data = await axios.get(url);
             // const decryptedData = AES.decrypt(get(data, 'data.data'));
             // const addon = JSON.parse(decryptedData);

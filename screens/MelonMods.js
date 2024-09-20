@@ -97,10 +97,6 @@ export default function Category() {
         }
     }
 
-    function randomInteger() {
-        return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
-    }
-
     function randomNumOfMods() {
         return Math.floor(Math.random() * (10 - 1 + 1)) + 1;
     }
@@ -153,7 +149,7 @@ export default function Category() {
     const getModOfCategory = async () => {
         // await AsyncStorage.clear();
         setItems([]);
-        const encryptedModsOfCategory = await axios.get('https://melon-mods.gammapp.com/melonMods/' + selectedCat);
+        const encryptedModsOfCategory = await axios.get('https://melon-mods.megatechlab.com/melonMods/' + selectedCat);
         const modsOfCategoryStr = await AES.decryptMelon(encryptedModsOfCategory.data)
         const modsOfCategory = JSON.parse(modsOfCategoryStr);
         setItems([]);
@@ -163,7 +159,7 @@ export default function Category() {
     const getNewMods = async () => {
         // await AsyncStorage.clear();
         setNewMods([]);
-        const encryptedModsOfCategory = await axios.get('https://melon-mods.gammapp.com/melonMods/New');
+        const encryptedModsOfCategory = await axios.get('https://melon-mods.megatechlab.com/melonMods/New');
         const modsOfCategoryStr = await AES.decryptMelon(encryptedModsOfCategory.data)
         const modsOfCategory = JSON.parse(modsOfCategoryStr);
 
@@ -172,7 +168,7 @@ export default function Category() {
 
     const getCategories = async () => {
         // await AsyncStorage.clear();
-        const encryptedCategories = await axios.get('https://melon-mods.gammapp.com/melonCategories');
+        const encryptedCategories = await axios.get('https://melon-mods.megatechlab.com/melonCategories');
 
         const categoriesStr = await AES.decryptMelon(encryptedCategories.data)
         const categories = JSON.parse(categoriesStr);
@@ -234,11 +230,11 @@ export default function Category() {
                         >
                             <ImageBackground style={styles.newItemImage} source={{ uri: mod.image }} imageStyle={{ borderRadius: 20 }} />
                             <View style={{ width: 200, flexDirection: 'row', marginTop: 10 }}>
-                                <View style={{ width: 40, height: 40, marginRight: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#004D40' }}>
+                                <View style={{ width: Platform.isPad ? 80 : 40, height: Platform.isPad ? 80 : 40, marginRight: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#004D40' }}>
                                     <View style={{ position: 'absolute', top: 5, right: 5 }}>
-                                        <Ionicons name="flame" color='#FFF' size={10} />
+                                        <Ionicons name="flame" color='#FFF' size={Platform.isPad ? 30 : 10} />
                                     </View>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 10, color: '#FFF' }}>new</Text>
+                                    <Text style={{ fontWeight: 'bold', fontSize: Platform.isPad ? null : 10, color: '#FFF' }}>new</Text>
                                 </View>
                                 <View style={{ width: 150 }}>
                                     <Text style={{ width: 150, fontSize: 16 }}>{mod.name.length < 30 ? mod.name : mod.name.substr(0, 30) + '...'}</Text>
@@ -325,21 +321,21 @@ export default function Category() {
 
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 10, marginTop: 20 }}>Categories</Text>
             <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: 100 }}>
+                <View style={{ width: Platform.isPad ? 200 : 100 }}>
                     {categories.map(category => (
                         <TouchableOpacity
                             key={category.name}
-                            style={{ backgroundColor: selectedCat === category.name ? '#B0BEC5' : '#FFF', width: 90, height: 90, marginTop: 10, marginLeft: 10 }}
+                            style={{ backgroundColor: selectedCat === category.name ? '#B0BEC5' : '#FFF', width: Platform.isPad ? 190 : 90, height: Platform.isPad ? 190 : 90, marginTop: 10, marginLeft: 10 }}
                             onPress={() => {
                                 setSelectedCat(category.name);
                             }}
                         >
-                            <Image source={category.image} style={{ width: 80, height: 80, marginLeft: 5, marginTop: 5 }} />
+                            <Image source={category.image} style={{ width: Platform.isPad ? 180 : 80, height: Platform.isPad ? 180 : 80, marginLeft: 5, marginTop: 5 }} />
                             <Text style={{ position: 'absolute', bottom: 8, left: 18, fontSize: 12, fontWeight: 'bold', color: '#FFF' }}>{category.name}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
-                <View style={{ width: width - 100 }}>
+                <View style={{ width: Platform.isPad ? width - 200 : width - 100 }}>
                     {items.length === 0 && <ActivityIndicator size={'large'} color={'#000'} />}
                     {items.map(item => (
                         <TouchableOpacity
@@ -411,19 +407,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#424242'
     },
-    itemImgView: {
-        margin: 10, width: 100, height: 100, borderRadius: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 2,
-    },
     itemImg: {
-        margin: 10, width: 100, height: 100, borderRadius: 10,
+        margin: 10, width: Platform.isPad ? 180 : 100, height: Platform.isPad ? 180 : 100, borderRadius: 10,
         backgroundColor: '#FFF',
         shadowColor: "#000",
         shadowOffset: {
@@ -466,10 +451,10 @@ const styles = StyleSheet.create({
         top: -15
     },
     melonItem: {
-        flexDirection: 'row', width: width - 120, height: 120, marginLeft: 10, marginTop: 10, marginRight: 10, borderRadius: 20,
+        flexDirection: 'row', width: Platform.isPad ? width - 220 : width - 120, height: Platform.isPad ? 220 : 120, marginLeft: 10, marginTop: 10, marginRight: 10, borderRadius: 20,
     },
     newItemImage: {
-        width: 200, height: 150,
+        width: Platform.isPad ? 400 : 200, height: Platform.isPad ? 300 : 150,
         backgroundColor: '#FFF',
         borderRadius: 20,
         shadowColor: "#000",

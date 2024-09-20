@@ -134,13 +134,13 @@ export default function Explore() {
 
     const getNewMods = async () => {
         setNewItems([]);
-        const newMods = await axios.get('https://melon-mods.gammapp.com/mods/New');
+        const newMods = await axios.get('https://melon-mods.megatechlab.com/mods/New');
         setNewItems(newMods.data.data);
     }
 
     // const getCategories = async () => {
     //     // await AsyncStorage.clear();
-    //     const categories = await axios.get('https://melon-mods.gammapp.com/categories');
+    //     const categories = await axios.get('https://melon-mods.megatechlab.com/categories');
     //     // const temp = ['Buildings'];
     //     const temp = [];
     //     for (const category of categories.data.data) {

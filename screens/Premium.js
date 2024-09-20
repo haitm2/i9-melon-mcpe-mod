@@ -85,7 +85,7 @@ const Premium = () => {
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
       <ScrollView>
         <View style={{ flex: 1 }}>
-          <ImageBackground source={require('../assets/iap_banner.png')} style={{ alignSelf: 'center', width: width, height: Platform.isPad ? 280 : width / 600 * 338, marginTop: 80 }} />
+          <ImageBackground source={require('../assets/iap_banner.png')} style={{ alignSelf: 'center', width: width, height: Platform.isPad ? 280 : width / 600 * 338, marginTop: 80 }} imageStyle={{ resizeMode: 'contain' }}/>
           <Text style={{ color: '#000', fontWeight: 'bold', alignSelf: 'center', fontSize: 24 }}>GET UNLIMITED ACCESS</Text>
 
           <View style={{ width: '75%', margin: 16, alignSelf: 'center' }}>
@@ -175,7 +175,7 @@ const Premium = () => {
                 try {
                   await axios({
                     method: 'post',
-                    url: 'https://analytics.gammapp.com/logging',
+                    url: 'https://analytics.megatechlab.com/logging',
                     data: {
                       appId: 'com.gammapp.modsmelon',
                       iapPack: selected.productId.includes('week') ? 'weekly v2.1' : 'onetime v2.1'
@@ -190,10 +190,10 @@ const Premium = () => {
           }}
         />}
         <View style={{ alignSelf: 'center', marginBottom: 10, width: '80%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-          <TouchableOpacity style={{ margin: 5 }} onPress={() => Linking.openURL('https://gammapp.com/privacy/')}>
+          <TouchableOpacity style={{ margin: 5 }} onPress={() => Linking.openURL('https://megatechlab.com/privacy/')}>
             <Text style={{ fontSize: 12, color: '#fff' }}>Privacy Policy</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ margin: 5 }} onPress={() => Linking.openURL('https://gammapp.com/terms')}>
+          <TouchableOpacity style={{ margin: 5 }} onPress={() => Linking.openURL('https://megatechlab.com/terms')}>
             <Text style={{ fontSize: 12, color: '#fff' }}>Terms of use</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ margin: 5 }}

@@ -55,7 +55,7 @@ export default function Splash({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/iap_banner.png')} style={{ alignSelf: 'center', width: width, height: width }} />
+      <ImageBackground source={require('../assets/iap_banner.png')} style={{ alignSelf: 'center', width: width, height: width }} imageStyle={{ resizeMode: 'contain' }}/>
     </View>
   );
 }

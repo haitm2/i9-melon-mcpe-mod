@@ -19,7 +19,7 @@ export default function MCPESearch({ navigation, route }) {
     const search = async (keyword) => {
         setSearching(true);
         setAddons([]);
-        const data = await axios.get('https://addons.magicdev.fun/addons4', { params: { q: keyword } });
+        const data = await axios.get('https://mcpe.megatechlab.com/addons4', { params: { q: keyword } });
         // const decryptedData = AES.decrypt(get(data, 'data.data'));
         // const objData = JSON.parse(decryptedData);
         setAddons(data.data);

@@ -13,6 +13,7 @@ import MCPEDetail from './screens/MCPEDetail';
 import MelonTutorial from './screens/MelonTutorial';
 import MCPETutorial from './screens/MCPETutorial';
 import RequestMod from './screens/RequestMod';
+import LuckyNumber from './screens/LuckyNumber';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -69,6 +70,11 @@ export default function App() {
           <Stack.Screen
             name="RequestMod"
             component={RequestMod}
+            options={{ headerShown: true, headerBackTitle: null }}
+          />
+          <Stack.Screen
+            name="LuckyNumber"
+            component={LuckyNumber}
             options={{ headerShown: true, headerBackTitle: null }}
           />
         </Stack.Group>

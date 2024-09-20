@@ -86,7 +86,7 @@ export default function MCPEMods({ navigation }) {
         // setIsLoading(true);
         // setAddons([]);
         const params = { start, sort, cat };
-        const data = await axios.get('https://addons.magicdev.fun/addons4', { params });
+        const data = await axios.get('https://mcpe.megatechlab.com/addons4', { params });
         // const decryptedData = AES.decryptMCPE(data.data.data);
         // console.log(decryptedData);
         // const objData = JSON.parse(decryptedData);

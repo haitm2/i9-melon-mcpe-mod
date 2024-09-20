@@ -258,7 +258,11 @@ export default function MelonSearch({ navigation, route }) {
               }}
             >
               <View style={styles.modItemLeft}>
-                <ImageBackground source={{ uri: mod.image }} style={{ width: 120, height: 120, backgroundColor: 'gray', borderRadius: 20 }} resizeMode='cover' imageStyle={{ borderRadius: 20 }} />
+                <ImageBackground source={{ uri: mod.image }} style={{ width: 120, height: 120, backgroundColor: 'gray', borderRadius: 20 }} resizeMode='cover' imageStyle={{ borderRadius: 20 }}>
+                  <View style={styles.lockView}>
+                    {isPurchased || mod.isFree === true ? null : <Ionicons name="lock-closed" color='#616161' size={20} />}
+                  </View>
+                </ImageBackground>
               </View>
               <View style={styles.modItemRight}>
                 <Text style={{ fontSize: 16 }}>{mod.name}</Text>
@@ -268,9 +272,6 @@ export default function MelonSearch({ navigation, route }) {
                   <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>1000</Text>
                   <Ionicons name="download-outline" color='#90A4AE' size={20} />
                 </View>
-              </View>
-              <View style={{ position: 'absolute', top: 10, right: 10 }}>
-                {isPurchased || mod.isFree === true ? null : <Ionicons name="lock-closed" color='#616161' size={20} />}
               </View>
             </TouchableOpacity>
           ))}
@@ -302,5 +303,6 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     margin: 16, backgroundColor: '#ECEFF1', flexDirection: 'row', borderRadius: 24,
-  }
+  },
+  lockView: { position: 'absolute', top: 10, right: 10, width: 30, height: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 15 }
 });
