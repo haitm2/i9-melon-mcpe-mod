@@ -26,7 +26,7 @@ const { width } = Dimensions.get('window');
 var isIpad = Platform.isPad;
 const PACKAGE_NAME = 'com.magicdev.mods.melon.playground';
 
-export default function Detail({ navigation, route }) {
+export default function MelonDetail({ navigation, route }) {
 
   const mod = route.params.data;
   const [bannerError, setBannerError] = useState(false);
@@ -174,7 +174,7 @@ export default function Detail({ navigation, route }) {
 
       for (const download of get(mod, 'downloads')) {
         // console.log(download);
-        if (files.includes(getFileName(get(download, 'url')))) {
+        if (files.includes(getFileName(download.url))) {
           set(download, 'status', 2);
           temp.push(download);
         } else {
@@ -203,7 +203,7 @@ export default function Detail({ navigation, route }) {
       const temp = []
 
       for (const download of get(mod, 'downloads')) {
-        if (files.includes(encodeURI(getFileName(get(download, 'url'))))) {
+        if (files.includes(encodeURI(getFileName(download.url)))) {
           set(download, 'status', 2);
           temp.push(download);
         } else {
@@ -320,7 +320,7 @@ export default function Detail({ navigation, route }) {
         </View>
 
         {downloads.map((item) => (
-          <View key={get(item, 'title')}>
+          <View key={item.title}>
             <Button
               icon={<Ionicons name={get(item, 'status') == 2 ? "share-outline" : "download-outline"} size={Platform.isPad ? 24 : 20} color="white" />}
               title={<Text style={{ color: '#fff' }}>{get(item, 'status') == 2 && (route.params.data.isFree === true || isPurchased === true) ? get(item, 'title') + '-Import mod' : get(item, 'status') == 2 ? get(item, 'title') + ' - Subscribe to import' : get(item, 'title') + '  '}</Text>}

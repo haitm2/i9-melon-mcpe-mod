@@ -12,6 +12,7 @@ import { StatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 
+
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
     ios: 'ca-app-pub-8168306793879841/1343150419',
     android: TestIds.INTERSTITIAL,

@@ -12,6 +12,15 @@ import {
 } from 'expo-tracking-transparency';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import messaging from '@react-native-firebase/messaging';
+
+async function requestUserPermission() {
+    const authorizationStatus = await messaging().requestPermission();
+
+    if (authorizationStatus) {
+        console.log('Permission status:', authorizationStatus);
+    }
+}
 
 const width = Dimensions.get('window').width;
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
@@ -68,6 +77,10 @@ export default function Category() {
     const [items, setItems] = useState([]);
     const [newMods, setNewMods] = useState([]);
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     useFocusEffect(
         React.useCallback(() => {
             IAP.isPurchased().then(result => {
@@ -95,10 +108,20 @@ export default function Category() {
                 console.log("ATT error:", err);
             }
         }
+        await requestNotifyPermission();
     }
 
-    function randomNumOfMods() {
-        return Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+    const requestNotifyPermission = async () => {
+        console.log(">>>>>>> requestNotifyPermission")
+        await requestUserPermission();
+
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+            console.log('Message handled in the background!', remoteMessage);
+        });
+
+        messaging()
+            .subscribeToTopic('melonmod')
+            .then(() => console.log('Subscribed to topic!'));
     }
 
     // React.useEffect(() => {
@@ -144,7 +167,6 @@ export default function Category() {
         // Unsubscribe from events on unmount
         return unsubscribe;
     }, []);
-
 
     const getModOfCategory = async () => {
         // await AsyncStorage.clear();
@@ -204,27 +226,28 @@ export default function Category() {
                 barStyle="dark-content"
             />
 
-            <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 10, marginTop: 10 }}>New release</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 10, marginTop: 10 }}>New releases</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={{ flexDirection: 'row' }}>
                     {newMods.map(mod => (
                         <TouchableOpacity
                             key={mod._id} style={{ margin: 10 }}
-                            onPress={() => {
+                            onPress={async () => {
+                                // if (!isPurchased) {
+                                //     if (loaded) {
+                                //         interstitial.show();
+                                //         setLoaded(false);
+                                //         interstitial.load();
+                                //     } else {
+                                //         interstitial.load();
+                                //     }
+                                // }
                                 var downloads = [];
                                 for (var file of mod.files) {
                                     downloads.push({ url: file, title: getFileName(file) })
                                 }
                                 set(mod, 'downloads', downloads);
-                                if (!isPurchased) {
-                                    if (loaded) {
-                                        interstitial.show();
-                                        setLoaded(false);
-                                        interstitial.load();
-                                    } else {
-                                        interstitial.load();
-                                    }
-                                }
+                                await sleep(100);
                                 navigation.navigate('MelonDetail', { data: mod });
                             }}
                         >
@@ -238,9 +261,9 @@ export default function Category() {
                                 </View>
                                 <View style={{ width: 150 }}>
                                     <Text style={{ width: 150, fontSize: 16 }}>{mod.name.length < 30 ? mod.name : mod.name.substr(0, 30) + '...'}</Text>
-                                    <Text style={{ width: 150, fontSize: 14, marginTop: 10 }}>{randomNumOfMods() + " submods"}</Text>
+                                    <Text style={{ width: 150, fontSize: 14, marginTop: 10 }}>{mod.fileCount + " submods"}</Text>
                                     <View style={{ width: 150, flexDirection: 'row' }}>
-                                        <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>1000</Text>
+                                        <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>{mod.downloads}</Text>
                                         <Ionicons name="download-outline" color='#90A4AE' size={20} />
                                     </View>
                                 </View>
@@ -342,22 +365,23 @@ export default function Category() {
                             style={styles.melonItem}
                             key={'modsss_' + item._id}
                             activeOpacity={1}
-                            onPress={() => {
-                                if (!isPurchased) {
-                                    if (loaded) {
-                                        interstitial.show();
-                                        setLoaded(false);
-                                        interstitial.load();
-                                    } else {
-                                        interstitial.load();
-                                    }
-                                }
+                            onPress={async () => {
+                                // if (!isPurchased) {
+                                //     if (loaded) {
+                                //         interstitial.show();
+                                //         setLoaded(false);
+                                //         interstitial.load();
+                                //     } else {
+                                //         interstitial.load();
+                                //     }
+                                // }
                                 if (!item.name.includes('empty_')) {
                                     var downloads = [];
                                     for (var file of item.files) {
                                         downloads.push({ url: file, title: getFileName(file) })
                                     }
                                     set(item, 'downloads', downloads);
+                                    await sleep(100);
                                     navigation.navigate('MelonDetail', { data: item });
                                 }
                             }}
@@ -369,9 +393,9 @@ export default function Category() {
                             </ImageBackground>}
                             {!item.name.includes('empty_') && <View style={{ width: width - 240 }}>
                                 <Text style={styles.itemtext}>{item.name}</Text>
-                                <Text style={{ fontSize: 14, marginTop: 10 }}>{randomNumOfMods() + " submods => " + item.isFree}</Text>
+                                <Text style={{ fontSize: 14, marginTop: 10 }}>{item.fileCount + " submods"}</Text>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>1000</Text>
+                                    <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>{item.downloads}</Text>
                                     <Ionicons name="download-outline" color='#90A4AE' size={20} />
                                 </View>
                             </View>}

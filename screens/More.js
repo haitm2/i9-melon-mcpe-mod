@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import InAppReview from 'react-native-in-app-review';
 import { Divider } from 'react-native-elements';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import { IAP } from '../utils';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -13,11 +13,30 @@ var isIpad = Platform.isPad;
 
 const width = Dimensions.get('window').width;
 const DOMAIN = 'megatechlab.com';
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
+  ios: TestIds.INTERSTITIAL,
+  android: TestIds.INTERSTITIAL,
+});
+const interstitial = InterstitialAd.createForAdRequest(adUnitId);
 
 export default function More({ navigation }) {
 
   const [isPurchased, setPurchased] = useState(false);
   const [bannerError, setBannerError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      console.log("Da load xong ad")
+      setLoaded(true);
+    });
+
+    // Start loading the interstitial straight away
+    interstitial.load();
+
+    // Unsubscribe from events on unmount
+    return unsubscribe;
+  }, []);
 
   const showRateDialog = () => {
     const isAvailable = InAppReview.isAvailable();
@@ -112,7 +131,18 @@ export default function More({ navigation }) {
           {!isPurchased && <Divider />}
           {!isPurchased && <TouchableOpacity
             style={styles.moreItem}
-            onPress={() => navigation.navigate('LuckyNumber')}
+            onPress={() => {
+              if (!isPurchased) {
+                if (loaded) {
+                  interstitial.show();
+                  setLoaded(false);
+                  interstitial.load();
+                } else {
+                  interstitial.load();
+                }
+              }
+              navigation.navigate('LuckyNumber');
+            }}
           >
             <View style={{ flexDirection: 'row' }}>
               <Ionicons name="gift-outline" color='#00796B' size={20} />

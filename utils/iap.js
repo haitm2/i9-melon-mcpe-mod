@@ -80,10 +80,18 @@ export async function connect() {
 }
 
 export async function isPurchased() {
+    var endDate = 1727680111000;
+    const d = new Date().getTime();
     const value = await AsyncStorage.getItem("purchased");
+    const luckyValue = await AsyncStorage.getItem("lucky_purchased");
     if (value == 'ok') {
         return true;
     }
+
+    if (luckyValue == 'ok' && d < endDate) {
+        return true;
+    }
+    
     return false;
     // return true;
 }

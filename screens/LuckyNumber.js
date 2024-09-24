@@ -17,7 +17,7 @@ export default function LuckyNumber({ navigation, route }) {
   }, [])
 
   const reachPremium = async () => {
-    await AsyncStorage.setItem("purchased", "ok");
+    await AsyncStorage.setItem("lucky_purchased", "ok");
     navigation.goBack();
   }
 
@@ -54,7 +54,6 @@ export default function LuckyNumber({ navigation, route }) {
           if (number == '' || number.length !== 7) alert('Enter any 7-digit number');
           else {
             var endDate = 1727680111000;
-            // var endDate = 1726643311000;
             const d = new Date().getTime();
             console.log(">>>>>", d)
             if (number == '1846275' && d < endDate) {
