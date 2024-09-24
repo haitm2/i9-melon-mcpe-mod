@@ -267,9 +267,9 @@ export default function MelonSearch({ navigation, route }) {
               <View style={styles.modItemRight}>
                 <Text style={{ fontSize: 16 }}>{mod.name}</Text>
                 {isPurchased || mod.isFree === true ? null : <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#222' }}>{"(New item, unlock later)"}</Text>}
-                <Text style={{ fontSize: 14, marginTop: 10 }}>{randomNumOfMods() + " submods"}</Text>
+                <Text style={{ fontSize: 14, marginTop: 10 }}>{mod.fileCount + " submods"}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>1000</Text>
+                  <Text style={{ fontSize: 14, marginTop: 10, color: '#90A4AE' }}>{mod.downloads}</Text>
                   <Ionicons name="download-outline" color='#90A4AE' size={20} />
                 </View>
               </View>
