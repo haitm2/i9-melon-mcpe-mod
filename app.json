@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "i9-melon-mcpe-mod",
+    "slug": "i9-melon-mcpe-mod",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mod.melon.mcpe"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.melon.mcpe.sandbox.mod"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3940256099942544~3347511713",
+    "ios_app_id": "ca-app-pub-1354543839348242~3890541563"
+  }
+}
